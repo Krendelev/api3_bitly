@@ -29,7 +29,7 @@ def link(parsed_arg):
     return parsed_arg
 
 
-def get_args():
+def get_link():
     parser = argparse.ArgumentParser(
         description="Shorten URL with Bitly or get click counts for a specified Bitlink."
     )
@@ -40,7 +40,7 @@ def get_args():
 
 
 if __name__ == "__main__":
-    link = get_args()
+    link = get_link()
     load_dotenv()
     token = os.getenv("BITLY_TOKEN")
     functions = [count_clicks, shorten_link]
