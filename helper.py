@@ -22,10 +22,9 @@ def count_clicks(token, url):
     return response.json()["total_clicks"]
 
 
-def link(parsed_arg):
-    message = "{} is not valid URL".format(parsed_arg)
+def is_valid_link(parsed_arg):
     if not (parsed_arg.startswith("http") or parsed_arg.startswith("bit")):
-        raise argparse.ArgumentTypeError(message)
+        raise argparse.ArgumentTypeError(f"{parsed_arg} is not valid URL")
     return parsed_arg
 
 
@@ -34,14 +33,14 @@ def get_link():
         description="Shorten URL with Bitly or get click counts for a specified Bitlink."
     )
     parser.add_argument(
-        "URL", type=link, help="URL to shorten or to get click counts for"
+        "URL", type=is_valid_link, help="URL to shorten or to get click counts for"
     )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
-    link = get_link()
     load_dotenv()
+    link = get_link()
     token = os.getenv("BITLY_TOKEN")
     functions = [count_clicks, shorten_link]
     requested_function = functions[link.URL.startswith("http")]
